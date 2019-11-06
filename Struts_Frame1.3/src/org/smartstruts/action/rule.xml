@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+	这个xml文件是由commons-digester定义用于告诉digester组件
+	自定义的配置文件和配置对象之间的关系,commons-digester组件了解了这
+	个关系后就可以将配置文件中的信息转换为配置对象
+-->
+<digester-rules>
+	<pattern value="struts-config">
+		<pattern value="form-beans">
+			<object-create-rule
+				classname="org.smartstruts.action.FormBeans" />
+			<set-next-rule methodname="setFormBeans" />
+			<pattern value="form-bean">
+				<object-create-rule
+					classname="org.smartstruts.action.FormBean" />
+				<set-next-rule methodname="addFormBean" />
+				<set-properties-rule />
+			</pattern>
+	     </pattern>
+	     <pattern value="global-forwards">
+	     <object-create-rule
+				classname="org.smartstruts.action.GlobalForwards" />
+				<set-next-rule methodname="setGlobalForwards" />
+	        <pattern value="forward">
+	        <object-create-rule
+						classname="org.smartstruts.action.ActionForward" />
+					<set-next-rule methodname="addActionForward" />
+					<set-properties-rule />
+	        </pattern>
+	     
+	     </pattern>
+
+		<pattern value="action-mappings">
+			<object-create-rule
+				classname="org.smartstruts.action.ActionMappings" />
+			<set-next-rule methodname="setMappings" />
+			<pattern value="action">
+				<!--每碰到一个action元素,就创建指定类的对象-->
+				<object-create-rule
+					classname="org.smartstruts.action.ActionMapping" />
+				<!--
+					对象创建后,调用指定的方法,
+					将其加入它上一级元素所对应的对象
+				-->
+				<set-next-rule methodname="addActionMapping" />
+				<!--
+					将action元素的各个属性按照相同的名称
+					赋值给刚刚创建的ActionMapping对象
+				-->
+				<set-properties-rule />
+				<pattern value="forward">
+					<object-create-rule
+						classname="org.smartstruts.action.ActionForward" />
+					<set-next-rule methodname="addActionForward" />
+					<set-properties-rule />
+				</pattern>
+			</pattern>
+		</pattern>
+		<pattern value="message-resources">
+		<object-create-rule
+				classname="org.smartstruts.action.MessageResources" />
+			<set-next-rule methodname="setMessageResources" />
+			<set-properties-rule />
+		</pattern>
+	</pattern>
+</digester-rules>

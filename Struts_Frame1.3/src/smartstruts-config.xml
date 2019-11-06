@@ -1,0 +1,34 @@
+<struts-config>
+
+
+	<form-beans>
+		<form-bean name="loginForm" type="test.actions.LoginForm"/>
+	</form-beans>
+	
+	<global-forwards>
+	<forward name="list" path="/WEB-INF/jsp/list.jsp" />
+	</global-forwards>
+	
+	<action-mappings>
+		<action path="/abc" type="test.TestAction" >
+			<forward name="success" path="/WEB-INF/jsp/hello.jsp" />
+		</action>
+		<action path="/toLogin" type="org.smartstruts.actions.ForwardAction" >
+			<forward name="forward" path="/WEB-INF/jsp/login.jsp" />
+		</action>
+		<action path="/login" type="test.actions.LoginAction" name="loginForm" attribute="loginForm" scope="session">
+			<forward name="success" path="/WEB-INF/jsp/list.jsp" />
+			<forward name="error" path="/WEB-INF/jsp/login.jsp" />
+		</action>
+		
+		<action path="/totestDisLogin" type="org.smartstruts.actions.ForwardAction" >
+			<forward name="forward" path="/WEB-INF/jsp/testDislogin.jsp" />
+		</action>
+		<action path="/testDispat" type="test.actions.TestDispatAction" name="loginForm" attribute="loginForm" scope="session" parameter="method">
+			<forward name="success" path="/WEB-INF/jsp/list.jsp" />
+			<forward name="error" path="/WEB-INF/jsp/testDislogin.jsp" />
+		</action>
+	</action-mappings>
+	<message-resources parameter="message" />
+	
+</struts-config>
